@@ -32,7 +32,7 @@ const ProfileSchema = new Schema({
   bio: {
     type: String,
   },
-  github: {
+  githubusername: {
     type: String
   },
   experience: [
@@ -114,7 +114,7 @@ const ProfileSchema = new Schema({
   date: {
     type: Date,
     default: Date.Now
-  }
+  },
 });
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema);
