@@ -1,11 +1,19 @@
 const mongoose = require('mongoose')
 const express = require('express');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+
 
 users = require('./routes/api/users');
-profiles = require('./routes/api/profiles');
+profile = require('./routes/api/profile');
 posts = require('./routes/api/posts');
 
 const app = express();
+
+//  Body Parser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 // DB Config
 const db = require('./config/keys').mongoURI;
@@ -14,14 +22,24 @@ const db = require('./config/keys').mongoURI;
 
 
 // Connect to mongo DB
-mongoose.connect(db).then(() => console.log("connected!!!!")).catch(err => { console.log(err) })
+//  { useNewUrlParser: true } was passed due to mongoose giving me a depreciated warning but it wasn't part
+// of the course. 
+mongoose.connect(db, { useNewUrlParser: true }).then(() => console.log("connected!!!!")).catch(err => { console.log(err) })
 
 app.use('/api/users', users);
-app.use('/api/profiles', profiles);
+app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 
+//  passport middleware
+app.use(passport.initialize());
 
-app.get('/', (req, res) => res.send("hello world!!"))
+// passport config
+require('./config/passport')(passport);
+
+// Use Routes
+app.use("/api/users", users)
+app.use("/api/profile", profile)
+app.use("/api/posts", posts)
 
 const port = process.env.PORT || 5000;
 
