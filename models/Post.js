@@ -20,8 +20,10 @@ postsSchema = new Schema({
 
   likes: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'users'
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+      }
     }
   ],
 
@@ -43,7 +45,7 @@ postsSchema = new Schema({
       },
       date: {
         type: Date,
-        default: Date.Now
+        default: Date.now
       }
     },
 
@@ -51,7 +53,7 @@ postsSchema = new Schema({
 
   date: {
     type: Date,
-    default: Date.Now
+    default: Date.now
   }
 
 });
